@@ -26,7 +26,7 @@ class User extends BaseUser
     }
 
     /**
-     * @ORM\OneToMany(targetEntity="task", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Task", mappedBy="user")
      *
      */
 
