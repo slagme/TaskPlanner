@@ -28,6 +28,7 @@ framework:
     session:
         # handler_id set to null will use default session handler from php.ini
         handler_id: ~
+        cookie_lifetime: 10
     fragments: ~
     http_method_override: true
 
@@ -74,3 +75,8 @@ fos_user:
     from_email:
             address: you@example.com
             sender_name: You
+easy_admin:
+    entities:
+        - MainBundle\Entity\Category
+        - MainBundle\Entity\Task
+        - MainBundle\Entity\User
