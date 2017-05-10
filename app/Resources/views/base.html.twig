@@ -9,6 +9,11 @@
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
     {% block stylesheets %}{% endblock %}
+    {#{% stylesheets#}
+        {#"css/my-style.css"#}
+    {#%}#}
+        {#<link rel="stylesheet" href="{{ asset_url }}"/>#}
+    {#{% endstylesheets %}#}
 
     <title>{% block title %}Something Clever Here!{% endblock %}</title>
 
@@ -26,8 +31,10 @@
 
 <body>
 
+{% include '::topnav.html.twig' %}
+
 <div class="container">
-    {% block content %}{% endblock %}
+    {% block content %} {% endblock %}
 </div>
 <!-- Bootstrap core JavaScript
 ================================================== -->
