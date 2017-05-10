@@ -1,5 +1,6 @@
 {% extends "@FOSUser/layout.html.twig" %}
 
+{% block title %} Welcome - {{ user }} {% endblock %}
 
 {% block fos_user_content %}
 {% include "@FOSUser/Profile/show_content.html.twig" %}
