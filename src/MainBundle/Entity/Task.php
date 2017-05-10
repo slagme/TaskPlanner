@@ -49,7 +49,12 @@ class Task
      */
     private $priority;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="user", inversedBy="tasks")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
 
+    private $user;
     /**
      * Get id
      *
@@ -150,5 +155,28 @@ class Task
     public function getPriority()
     {
         return $this->priority;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \MainBundle\Entity\user $user
+     * @return Task
+     */
+    public function setUser(\MainBundle\Entity\user $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \MainBundle\Entity\user 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }
