@@ -1,0 +1,11 @@
+{% extends '::base.html.twig' %}
+
+    {% block title %} Dummy {% endblock %}
+
+    {% block content %}
+    {{ form_start (formTask) }}
+    {{ form_widget(formTask) }}
+    <input type="submit" value="Send">
+    {{ form_end(formTask) }}
+
+    {% endblock %}
