@@ -3,9 +3,20 @@
     {% block title %} Add new task {% endblock %}
 
     {% block content %}
-    {{ form_start (formTask) }}
+    <div class="position-align">
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        {{ form_start (formTask) }}
     {{ form_widget(formTask) }}
     <input type="submit" value="Send">
     {{ form_end(formTask) }}
+        <p> No category found?! No problem, feel free to add <a href="{{ path ('category_new') }}">new one!</p>
 
+    </div>
     {% endblock %}
