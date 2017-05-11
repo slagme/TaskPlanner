@@ -1,9 +1,14 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
+{% include 'topnav.html.twig' %}
 
+<br>
+<br>
+<br>
+<br>
 <div class="fos_user_user_show">
-    <p>{{ 'profile.show.username'|trans }}: {{ user.username }}</p>
-    <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
+    <h2>{{ 'profile.show.username'|trans }}: {{ user.username }}</h2>
+    <h3>{{ 'profile.show.email'|trans }}: {{ user.email }}<h3>
     <h4> Your tasks:</h4>
     <p> {% for task in user.tasks %} </p>
             {{ task.name }} <br>
@@ -13,7 +18,11 @@
         {% else %}
 
         <p> You have no task yet.</p>
+
+
         {% endfor %}
+            <li>
 
-
+            <a href="{{  path ('addTask', {'id' : user.id}) }}"> Want to add new task? </a>
+            </li>
 </div>
