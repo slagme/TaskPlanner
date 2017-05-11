@@ -2,7 +2,9 @@
 
 namespace MainBundle\Controller;
 
+use Doctrine\ORM\Mapping as ORM;
 use MainBundle\Entity\Category;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
@@ -36,6 +38,7 @@ class CategoryController extends Controller
      *
      * @Route("/new", name="category_new")
      * @Method({"GET", "POST"})
+     * @Template("category\new.html.twig")
      */
     public function newAction(Request $request)
     {
@@ -133,4 +136,5 @@ class CategoryController extends Controller
             ->getForm()
         ;
     }
+
 }

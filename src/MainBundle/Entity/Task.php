@@ -50,11 +50,18 @@ class Task
     private $priority;
 
     /**
-     * @ORM\ManyToOne(targetEntity="user", inversedBy="tasks")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="tasks")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
 
     private $user;
+
+
+    /**
+     * @var
+     */
+
+    private $category;
     /**
      * Get id
      *
@@ -178,5 +185,21 @@ class Task
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param mixed $category
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
     }
 }
