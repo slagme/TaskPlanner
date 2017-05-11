@@ -40,11 +40,11 @@ class TaskController extends Controller
 
     public function addTaskFormAction($id)
     {
-        $em=$this->getDoctrine()->getManager();
-        $user=$em->getRepository('MainBundle:User')->findOneBy(['id'=> $id]);
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('MainBundle:User')->findOneBy(['id' => $id]);
 
 
-        if (!$user){
+        if (!$user) {
             throw $this->createNotFoundException('User not found');
         }
 
@@ -64,15 +64,15 @@ class TaskController extends Controller
 
     public function addTaskAction(Request $request, $id)
     {
-        $em=$this->getDoctrine()->getManager();
-        $user=$em->getRepository('MainBundle:User')->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('MainBundle:User')->find($id);
 
 
-        if (!$user){
+        if (!$user) {
             throw $this->createNotFoundException('User not found');
         }
 
-        $task= new Task();
+        $task = new Task();
 
         $formTask = $this->createForm(TaskType::class, $task);
         $formTask->handleRequest($request);
@@ -87,4 +87,65 @@ class TaskController extends Controller
 
         return $this->redirectToRoute('fos_user_profile_show');
     }
+
+    /**
+     * @Route("profile/{id}/edit", name="task_edit")
+     * @Method({"GET", "POST"})
+     */
+
+    public function editTaskAction(Request $request, $id)
+    {
+        $deleteForm = $this->createDeleteForm($task);
+        $editForm = $this->createForm('MainBundle\Form\TaskType', $task);
+
+        $editForm->handleRequest($request);
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute('task_edit', array('id' => $task->getId()));
+        }
+
+        return $this->render('task/edit.html.twig', array(
+            'task' => $task,
+            'edit_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
+
+
+    private function createDeleteForm(Task $task)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('task_delete', array('id' => $task->getId())))
+            ->setMethod('DELETE')
+            ->getForm()
+            ;
+    }
+
+
+    /**
+     * Deletes a offer entity.
+     *
+     * @Route("/{id}", name="task_delete")
+     * @Method("DELETE")
+     */
+    public function deleteAction(Request $request, task $task)
+    {
+        $form = $this->createDeleteForm($task);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($task);
+            $em->flush();
+        }
+        return $this->redirectToRoute('offer_index');
+    }
+
+
+    public function getUser()
+    {
+        return parent::getUser();
+    }
+
 }
