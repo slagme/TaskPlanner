@@ -2,7 +2,9 @@
 
 namespace MainBundle\Form;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,7 +17,11 @@ class TaskType extends AbstractType
     {
         $builder->add('name')
             ->add('description')
-            ->add('deadline');
+            ->add('deadline', DateTimeType::class, ['years'=>[2017,2018,2019,2020]]);
+//            ->add('categories', EntityType::class,
+//                ['class' => 'MainBundle\Entity\Task', 'choice_label' => ['name' ]]);
+//            ->add('priority', EntityType::class,
+//                ['class' => 'MainBundle\Entity\Task', 'choice_label' => ['name']]);
     }
     
     /**
