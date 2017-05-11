@@ -17,36 +17,20 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class TaskController extends Controller
 {
-    /**
-     * Lists all task entities.
-     *
-     * @Route("/", name="task_index")
-     * @Method("GET")
-     */
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
 
-        $tasks = $em->getRepository('MainBundle:Task')->findAll();
-
-        return $this->render('task/index.html.twig', array(
-            'tasks' => $tasks,
-        ));
-    }
-
-    /**
-     * Finds and displays a task entity.
-     *
-     * @Route("/{id}", name="task_show")
-     * @Method("GET")
-     */
-    public function showAction(Task $task)
-    {
-
-        return $this->render('task/show.html.twig', array(
-            'task' => $task,
-        ));
-    }
+//    /**
+//     * Finds and displays a task entity.
+//     *
+//     * @Route("/{id}", name="task_show")
+//     * @Method("GET")
+//     */
+//    public function showAction(Task $task)
+//    {
+//
+//        return $this->render('task/show.html.twig', array(
+//            'task' => $task,
+//        ));
+//    }
 
     /**
      * @Route ("/profile/{id}/addTask" , name="task_add_Form")
@@ -67,7 +51,7 @@ class TaskController extends Controller
         $task = new Task();
 
         $formTask = $this->createForm(TaskType::class, $task,
-            ['action' => $this->redirectToRoute('addTask', ['id' => $id])]);
+            ['action' => $this->generateUrl('addTask', ['id' => $id])]);
 
         return ['formTask' => $formTask->createView()];
     }
@@ -100,7 +84,7 @@ class TaskController extends Controller
             $em->persist($task);
             $em->flush();
         }
-        return $this->redirectToRoute('main_user_show', ['id' => $id]);
 
+        return $this->redirectToRoute('fos_user_profile_show');
     }
 }
