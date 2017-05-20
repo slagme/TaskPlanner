@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Category controller.
@@ -42,6 +43,8 @@ class CategoryController extends Controller
      */
     public function newAction(Request $request)
     {
+
+
         $category = new Category();
         $form = $this->createForm('MainBundle\Form\CategoryType', $category);
         $form->handleRequest($request);
@@ -52,8 +55,8 @@ class CategoryController extends Controller
             $em->flush();
 
             return $this->redirectToRoute('category_show', array('id' => $category->getId()));
-        }
 
+        }
         return $this->render('category/new.html.twig', array(
             'category' => $category,
             'form' => $form->createView(),
@@ -120,21 +123,15 @@ class CategoryController extends Controller
 
         return $this->redirectToRoute('category_index');
     }
-
-    /**
-     * Creates a form to delete a category entity.
-     *
-     * @param Category $category The category entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(Category $category)
+    
+    public function createDeleteForm(Category $category)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('category_delete', array('id' => $category->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
+                ->setAction($this->generateUrl('category_delete', array ('id'=> $category ->getId())))
+                ->setMethod('DELETE')
+                ->getForm()
+                ;
+            
     }
 
 }
