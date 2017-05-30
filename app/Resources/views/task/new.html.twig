@@ -3,20 +3,38 @@
     {% block title %} Add new task {% endblock %}
 
     {% block content %}
-    <div class="position-align">
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+        <div class="container" style="border: #3366ff; border-style: solid; background-color: seashell">
+        <div class="row">
+            <div class="col-xs-12">
+                
+                <h2 style="font-style: italic">New Task</h2><br>
+                        {{ form_start (formTask) }}
+                    <div style="align-content: center;">
+                        {{form_label(formTask.name, 'Name your task:')}}
+                        {{form_errors (formTask.name)}}
+                        {{form_widget (formTask.name)}}
+                    </div>    
+                    <div style="background-color: " >
+                        {{form_label(formTask.description, 'Type in description:')}}
+                        {{form_errors (formTask.description)}}
+                        {{form_widget (formTask.description)}}
+                    </div>    
+               
+                
+                        {{ form_widget(formTask) }}
+                        <button type="submit" class="btn btn-primary" style=""> Send</button>
+                        {{ form_end(formTask) }}
 
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
 
-        {{ form_start (formTask) }}
-    {{ form_widget(formTask) }}
-    <input type="submit" value="Send">
-    {{ form_end(formTask) }}
+
+    <hr>
         <p> No category found?! No problem, feel free to add <a href="{{ path ('category_new') }}">new one!</p>
 
-    </div>
+    </div>    
     {% endblock %}
