@@ -18,19 +18,23 @@ use Symfony\Component\HttpFoundation\Request;
 class TaskController extends Controller
 {
 
-//    /**
-//     * Finds and displays a task entity.
-//     *
-//     * @Route("/{id}", name="task_show")
-//     * @Method("GET")
-//     */
-//    public function showAction(Task $task)
-//    {
-//
-//        return $this->render('task/show.html.twig', array(
-//            'task' => $task,
-//        ));
-//    }
+    /**
+     * @Route  ("profile/{id}/task", name="task_show")
+     * @Method("GET")
+     */
+
+    public function showAction(Task $task)
+    {
+
+
+        $deleteForm = $this->createDeleteForm($task);
+
+        return $this->render('task/show.html.twig', array(
+            'task' => $task,
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
 
     /**
      * @Route ("/profile/{id}/addTask" , name="task_add_Form")
@@ -40,9 +44,11 @@ class TaskController extends Controller
 
     public function addTaskFormAction($id)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER', null, 'Unable to access this page!');
+
+
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('MainBundle:User')->findOneBy(['id' => $id]);
-
 
         if (!$user) {
             throw $this->createNotFoundException('User not found');
@@ -89,12 +95,14 @@ class TaskController extends Controller
     }
 
     /**
-     * @Route("profile/{id}/edit", name="task_edit")
+     * @Route("/{id}/edit", name="task_edit")
      * @Method({"GET", "POST"})
      */
 
-    public function editTaskAction(Request $request, $id)
+    public function editTaskAction(Request $request, Task $task)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER', null, 'Unable to access this page!');
+
         $deleteForm = $this->createDeleteForm($task);
         $editForm = $this->createForm('MainBundle\Form\TaskType', $task);
 
@@ -112,8 +120,6 @@ class TaskController extends Controller
         ));
     }
 
-
-
     private function createDeleteForm(Task $task)
     {
         return $this->createFormBuilder()
@@ -123,23 +129,29 @@ class TaskController extends Controller
             ;
     }
 
-
     /**
-     * Deletes a offer entity.
+     * Deletes a task entity.
      *
-     * @Route("/{id}", name="task_delete")
-     * @Method("DELETE")
+     * @Route("/profile/{id}/deleteTask", name="task_delete")
+     * @Method({"GET", "DELETE"})
      */
-    public function deleteAction(Request $request, task $task)
+    public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($task);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($task);
-            $em->flush();
+        $this->denyAccessUnlessGranted('ROLE_USER', null, 'Unable to access this page!');
+
+        $em = $this->getDoctrine()->getManager();
+        $task = $em->getRepository('MainBundle:Task')->find($id);
+
+        if (!$task) {
+            throw $this->createNotFoundException('Task not found');
         }
-        return $this->redirectToRoute('offer_index');
+
+        $em->remove($task);
+        $em->flush();
+
+
+        return $this->redirectToRoute('fos_user_profile_show');
+
     }
 
 
